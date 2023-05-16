@@ -1,2 +1,2 @@
 # generateur-de-mot-de-passe
-une application générateur de mot de passe avec python et tkinter
+une application pour générer des  mot de passe  authomatiquement et sauvegarder  avec python et tkinter 
