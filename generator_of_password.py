@@ -1,7 +1,63 @@
 import random
 import pyperclip
 from tkinter import *
+from tkinter.ttk import *import random
+import pyperclip
+from tkinter import *
 from tkinter.ttk import *
+import os
+import datetime
+import string
+
+def generate_password():
+    entry.delete(0, END)
+    length = var_length.get()
+    chars = {
+        1: string.ascii_lowercase,
+        0: string.ascii_uppercase,
+        3: string.ascii_letters + string.digits + "!@#%§£$^ùéè*()"
+    }
+    
+    char_pool = chars.get(var_strength.get())
+    if not char_pool:
+        return
+    
+    password = ''.join(random.choice(char_pool) for _ in range(length))
+    entry.insert(0, password)
+
+def copy_to_clipboard():
+    random_pwd = entry.get()
+    pyperclip.copy(random_pwd)
+    
+    with open("psd_generated.txt", "a") as file:
+        date = datetime.datetime.now()
+        file.write(f"Mot de passe: {random_pwd}\t{date}\n")
+
+# Interface utilisateur
+root = Tk()
+
+var_strength = IntVar(value=1)
+var_length = IntVar(value=8)
+
+root.title("Automatic password generator")
+
+Label(root, text="Mot de passe:").grid(row=0, column=0, padx=5, pady=5)
+entry = Entry(root, width=30)
+entry.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
+
+Label(root, text="Taille:").grid(row=1, column=0, padx=5, pady=5)
+combo = Combobox(root, textvariable=var_length, values=list(range(8, 33)))
+combo.grid(row=1, column=1, padx=5, pady=5)
+
+Button(root, text="Générer", command=generate_password).grid(row=0, column=3, padx=5, pady=5)
+Button(root, text="Copier", command=copy_to_clipboard).grid(row=0, column=4, padx=5, pady=5)
+
+Radiobutton(root, text="Faible", variable=var_strength, value=1).grid(row=1, column=2, padx=5, pady=5)
+Radiobutton(root, text="Moyen", variable=var_strength, value=0).grid(row=1, column=3, padx=5, pady=5)
+Radiobutton(root, text="Super_pro", variable=var_strength, value=3).grid(row=1, column=4, padx=5, pady=5)
+
+root.mainloop()
+
 import os
 import datetime 
 
